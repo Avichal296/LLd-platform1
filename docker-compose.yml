@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: lld
+      POSTGRES_PASSWORD: 7ca45de627a857e14f9cd01237d42f480b5b1e59905bfd35632ea285fd0e5234
+      POSTGRES_DB: lld_practice
+    ports:
+      - "5432:5432"
+    volumes:
+      - lld_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lld -d lld_practice"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: ./server
+    ports:
+      - "43124:43124"
+    environment:
+      DATABASE_URL: postgresql://lld:7ca45de627a857e14f9cd01237d42f480b5b1e59905bfd35632ea285fd0e5234@postgres:5432/lld_practice
+      PORT: "43124"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web:
+    build: ./web
+    ports:
+      - "43123:43123"
+    environment:
+      API_PROXY: http://api:43124
+    volumes:
+      - ./web/src:/app/src
+    depends_on:
+      - api
+
+volumes:
+  lld_pg:

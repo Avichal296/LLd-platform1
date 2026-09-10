@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Learner {
+  id          String   @id
+  displayName String
+  createdAt   DateTime @default(now())
+  attempts    Attempt[]
+}
+
+model Problem {
+  id                String   @id
+  slug              String   @unique
+  title             String
+  difficulty        String
+  estimatedMinutes  Int
+  blurb             String
+  prompt            String
+  constraints       Json
+  functionalReqs    Json
+  changeScenarios   Json
+  designSignals     Json
+  createdAt         DateTime @default(now())
+  attempts          Attempt[]
+}
+
+model Attempt {
+  id             String       @id
+  learnerId      String
+  problemId      String
+  startedAt      DateTime     @default(now())
+  lastActivityAt DateTime     @default(now())
+  learner        Learner      @relation(fields: [learnerId], references: [id])
+  problem        Problem      @relation(fields: [problemId], references: [id])
+  submissions    Submission[]
+
+  @@index([learnerId, startedAt])
+  @@index([problemId])
+}
+
+model Submission {
+  id             String       @id
+  attemptId      String
+  createdAt      DateTime     @default(now())
+  status         String
+  format         String
+  assumptions    String
+  classDesign    String
+  relationships  String
+  tradeoffs      String
+  codeSketch     String       @default("")
+  diagramSource  String       @default("")
+  contentHash    String
+  failReason     String?
+  attempt        Attempt      @relation(fields: [attemptId], references: [id])
+  evaluation     Evaluation?
+
+  @@unique([attemptId, contentHash])
+  @@index([attemptId, createdAt])
+}
+
+model Evaluation {
+  id                String     @id
+  submissionId      String     @unique
+  evaluatorKind     String
+  overallScore      Float
+  summary           String
+  strengths         Json
+  nextFocus         Json
+  criterionResults  Json
+  startedAt         DateTime
+  completedAt       DateTime?
+  errorMessage      String?
+  submission        Submission @relation(fields: [submissionId], references: [id])
+}

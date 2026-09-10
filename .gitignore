@@ -1,0 +1,14 @@
+node_modules
+dist
+.env
+*.log
+.DS_Store
+coverage
+web/dist
+server/dist
+.prisma
+lld-practice-platform.zip
+api/*.js
+public/
+assets/
+.vercel
