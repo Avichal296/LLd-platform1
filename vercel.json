@@ -1,9 +1,4 @@
 {
   "installCommand": "npm install --prefix web && npm install --prefix server",
-  "buildCommand": "npm run vercel-build",
-  "functions": {
-    "api/[...path].ts": {
-      "runtime": "nodejs22.x"
-    }
-  }
+  "buildCommand": "npm run vercel-build"
 }
