@@ -9,7 +9,20 @@ export default async function handler(req: any, res: any) {
     }
 
     const app = await appPromise;
-    return app(req, res);
+
+    // Vercel invokes this function for /api/*
+    // Express routes are defined without the /api prefix.
+    const originalUrl = req.url;
+
+    if (req.url?.startsWith("/api")) {
+      req.url = req.url.slice(4) || "/";
+    }
+
+    try {
+      return await app(req, res);
+    } finally {
+      req.url = originalUrl;
+    }
   } catch (error) {
     console.error("API handler error:", error);
 
