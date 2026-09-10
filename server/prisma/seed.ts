@@ -1,11 +1,17 @@
 import { loadEnv } from "../src/load-env.ts";
 loadEnv();
+import { PrismaPg } from "@prisma/adapter-pg";
 
 import { PrismaClient } from "@prisma/client";
 import { PROBLEM_CATALOG } from "../src/catalog/problems.ts";
 
-const prisma = new PrismaClient();
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL!,
+});
 
+const prisma = new PrismaClient({
+  adapter,
+});
 async function main() {
   for (const p of PROBLEM_CATALOG) {
     await prisma.problem.upsert({
