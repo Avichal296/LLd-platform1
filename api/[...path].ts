@@ -15,9 +15,11 @@ export default async function handler(req: any, res: any) {
     console.error("API handler error:", error);
 
     if (!res.headersSent) {
-      res.status(500).json({
-        error: "Internal server error",
+      return res.status(500).json({
+        error: "Internal server error"
       });
     }
+
+    throw error;
   }
 }
