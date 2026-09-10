@@ -13,10 +13,7 @@ export default async function handler(req: any, res: any) {
     req.headers?.["x-forwarded-uri"] ||
     req.headers?.["x-invoke-path"];
 
-  if (
-    typeof forwarded === "string" &&
-    forwarded.startsWith("/api")
-  ) {
+  if (typeof forwarded === "string" && forwarded.startsWith("/api")) {
     req.url = forwarded;
   }
 

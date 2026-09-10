@@ -1,20 +1,3 @@
-import { buildApp } from "../server/src/app.ts";
+import handler from "../server/src/vercel-handler.ts";
 
-let appPromise: ReturnType<typeof buildApp> | undefined;
-
-export default async function handler(req: any, res: any) {
-  try {
-    if (!appPromise) {
-      appPromise = buildApp();
-    }
-
-    const app = await appPromise;
-
-    return app(req, res);
-  } catch (error) {
-    console.error("API handler error:", error);
-    return res.status(500).json({
-      error: "Internal server error",
-    });
-  }
-}
+export default handler;
