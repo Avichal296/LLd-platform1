@@ -21,8 +21,7 @@ export function createRouter(practice: PracticeService) {
   router.get("/problems", async (_req, res, next) => {
     try {
       const problems = await practice.listProblems();
-      res.json(problems.map(publicProblem));
-    } catch (err) {
+      res.json(problems.map((problem) => publicProblem(problem)));    } catch (err) {
       next(err);
     }
   });
