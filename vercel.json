@@ -1,6 +1,13 @@
 {
   "version": 2,
-  "installCommand": "npm install --prefix web && npm install --prefix server",
   "buildCommand": "npm run vercel-build",
-  "outputDirectory": "web/dist"
+  "outputDirectory": "public",
+  "functions": {
+    "api/index.ts": {
+      "runtime": "nodejs20.x",
+      "includeFiles": [
+        "server/dist/**"
+      ]
+    }
+  }
 }
