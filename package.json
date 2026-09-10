@@ -1,6 +1,7 @@
 {
   "name": "lld-practice",
   "private": true,
+  "type": "module",
   "scripts": {
     "vercel-build": "npm run build --prefix web && rm -rf public && mkdir -p public && cp -r web/dist/. public/ && npm run prisma:generate --prefix server"
   }

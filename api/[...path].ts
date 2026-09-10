@@ -1,4 +1,4 @@
-import { buildApp } from "../server/src/app";
+import { buildApp } from "../server/src/app.ts";
 
 let appPromise: ReturnType<typeof buildApp> | undefined;
 
@@ -15,11 +15,9 @@ export default async function handler(req: any, res: any) {
     console.error("API handler error:", error);
 
     if (!res.headersSent) {
-      return res.status(500).json({
+      res.status(500).json({
         error: "Internal server error",
       });
     }
-
-    throw error;
   }
 }
