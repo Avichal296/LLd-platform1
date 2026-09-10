@@ -1,11 +1,11 @@
-import { buildApp } from "../server/src/app.ts";
-
-let appPromise: ReturnType<typeof buildApp> | undefined;
+let appPromise: Promise<any> | undefined;
 
 export default async function handler(req: any, res: any) {
   try {
     if (!appPromise) {
-      appPromise = buildApp();
+      appPromise = import("../server/dist/src/app.js").then((mod) => {
+        return mod.buildApp();
+      });
     }
 
     const app = await appPromise;
