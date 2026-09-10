@@ -1,6 +1,6 @@
 import { buildMemoryApp } from "./app.ts";
 
-const app = buildMemoryApp();
+let app : ReturnType<typeof buildMemoryApp> | undefined;
 
 export default function handler(req: { url?: string; headers?: Record<string, unknown> }, res: unknown) {
   const forwarded = header(req, "x-forwarded-uri") || header(req, "x-invoke-path");
