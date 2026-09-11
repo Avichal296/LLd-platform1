@@ -82,6 +82,5 @@ Covers the attempt/submission state machine, thin-submission rejection, duplicat
 
 `lld-practice-platform.zip` at the repo root (no `node_modules`). Unzip, run the local or Docker steps above.
 
-## Assignment notes
-
-Read `RESEARCH.md`, `DESIGN.md`, and `AI_USAGE.md` with this file. Google Form submission is on you; this repo is the prototype + write-up.
+## Hosted on this link :
+https://l-ld-platform1-three.vercel.app/
